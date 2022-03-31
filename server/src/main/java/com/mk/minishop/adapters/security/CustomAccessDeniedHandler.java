@@ -22,7 +22,6 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
             AccessDeniedException exception
     ) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-
         response
                 .getOutputStream()
                 .println(

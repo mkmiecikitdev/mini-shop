@@ -21,4 +21,12 @@ public class LoginRegisterFormDto {
     public String getPassword() {
         return password;
     }
+
+    @Override
+    public String toString() {
+        return "LoginRegisterFormDto{" +
+                "login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

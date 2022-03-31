@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-class SecurityProperties {
+public class SecurityProperties {
 
     @Value("${security.secret}")
     private String secret;
@@ -12,7 +12,7 @@ class SecurityProperties {
     @Value("${security.expiration-time}")
     private String expirationTime;
 
-    SecurityProperties(String secret, String expirationTime) {
+    public SecurityProperties(String secret, String expirationTime) {
         this.secret = secret;
         this.expirationTime = expirationTime;
     }
@@ -20,11 +20,11 @@ class SecurityProperties {
     SecurityProperties() {
     }
 
-    String getSecret() {
+    public String getSecret() {
         return this.secret;
     }
 
-    Long getExpirationTime() {
+    public Long getExpirationTime() {
         return Long.parseLong(expirationTime);
     }
 }

@@ -31,5 +31,9 @@
             <groupId>com.mk</groupId>
             <artifactId>client</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.mk</groupId>
+            <artifactId>server</artifactId>
+        </dependency>
     </dependencies>
 </project>

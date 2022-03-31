@@ -2,13 +2,16 @@ package com.mk.minishop.errors;
 
 public class RestErrorDto {
 
-    private final String code;
+    private String code;
 
-    private final String message;
+    private String message;
 
     public RestErrorDto(String code, String message) {
         this.code = code;
         this.message = message;
+    }
+
+    public RestErrorDto() {
     }
 
     public String getCode() {

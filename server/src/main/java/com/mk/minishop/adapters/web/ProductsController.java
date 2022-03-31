@@ -1,9 +1,8 @@
 package com.mk.minishop.adapters.web;
 
 import com.mk.minishop.products.NewProductForm;
-import com.mk.minishop.products.ProductDto;
 import com.mk.minishop.products.ProductFacade;
-import io.vavr.collection.Set;
+import com.mk.minishop.products.ProductsDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +30,7 @@ class ProductsController {
     }
 
     @GetMapping("/products")
-    Set<ProductDto> listAll() {
+    ProductsDto listAll() {
         return productFacade.listAll();
     }
 }

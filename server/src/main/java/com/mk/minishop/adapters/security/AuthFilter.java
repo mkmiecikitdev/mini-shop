@@ -1,5 +1,7 @@
 package com.mk.minishop.adapters.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mk.minishop.errors.ApiErrors;
 import io.vavr.control.Try;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -27,9 +29,17 @@ class AuthFilter extends OncePerRequestFilter {
         }
 
         authReader.getAuthFromRequest(request)
-                .peek(it -> SecurityContextHolder.getContext().setAuthentication(it))
-                .onEmpty(() -> Try.run(() -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Cannot authorize")));
-
-        filterChain.doFilter(request, response);
+                .peek(it -> {
+                    SecurityContextHolder.getContext().setAuthentication(it);
+                    Try.run(() -> filterChain.doFilter(request, response));
+                })
+                .onEmpty(() -> Try.run(() -> {
+                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    response
+                            .getOutputStream()
+                            .println(
+                                    new ObjectMapper().writeValueAsString(ApiErrors.ACCESS_DENIED)
+                            );
+                }));
     }
 }

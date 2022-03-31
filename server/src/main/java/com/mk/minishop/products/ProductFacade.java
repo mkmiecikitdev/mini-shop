@@ -4,7 +4,6 @@ import com.mk.minishop.error.MiniShopError;
 import com.mk.minishop.orders.NewOrderFormDto;
 import com.mk.minishop.orders.ProductOrderFormDto;
 import io.vavr.collection.Map;
-import io.vavr.collection.Set;
 import io.vavr.control.Either;
 
 import java.util.UUID;
@@ -26,9 +25,9 @@ public class ProductFacade {
                 );
     }
 
-    public Set<ProductDto> listAll() {
-        return productRepository.findAll()
-                .map(Product::dto);
+    public ProductsDto listAll() {
+        return new ProductsDto(productRepository.findAll()
+                .map(Product::dto));
     }
 
     public boolean areThereInStack(NewOrderFormDto newOrderFormDto) {

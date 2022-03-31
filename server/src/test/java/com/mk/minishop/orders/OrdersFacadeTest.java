@@ -1,6 +1,6 @@
 package com.mk.minishop.orders;
 
-import com.mk.minishop.dsl.EitherAssertion;
+import com.mk.minishop.dsl.DomainEitherAssertion;
 import com.mk.minishop.dsl.TestConfiguration;
 import com.mk.minishop.dsl.TestOrders;
 import com.mk.minishop.dsl.TestProducts;
@@ -33,7 +33,7 @@ public class OrdersFacadeTest {
     public void shouldReturnErrorIfNoProductsInStack() {
         final Either<MiniShopError, UUID> result = ordersFacade.addOrder(TestOrders.RANDOM_ORDER, UUID.randomUUID());
 
-        new EitherAssertion<>(result)
+        new DomainEitherAssertion<>(result)
                 .isError()
                 .withType(MiniShopErrorType.PRODUCTS_OUT_OF_STOCK);
 
@@ -48,7 +48,7 @@ public class OrdersFacadeTest {
 
         final Either<MiniShopError, UUID> result = ordersFacade.addOrder(TestOrders.withSingleProduct(ballId, 5), userId);
 
-        new EitherAssertion<>(result)
+        new DomainEitherAssertion<>(result)
                 .isOk();
 
         Assertions.assertThat(ordersFacade.countByUserId(userId)).isEqualTo(1);
@@ -64,7 +64,7 @@ public class OrdersFacadeTest {
 
         final Either<MiniShopError, UUID> result = ordersFacade.addOrder(TestOrders.withTwoProducts(ballId, 5, shoesId, 5), userId);
 
-        new EitherAssertion<>(result)
+        new DomainEitherAssertion<>(result)
                 .isError()
                 .withType(MiniShopErrorType.PRODUCTS_OUT_OF_STOCK)
                 .withMessage("Products out of stack");

@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private SecurityProperties securityProperties;
@@ -33,6 +33,8 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/register").permitAll()
                 .antMatchers(HttpMethod.GET, "/products").hasAnyRole("USER", "ADMIN")
                 .antMatchers(HttpMethod.POST, "/products").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/orders").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/orders/count").hasAnyRole("USER", "ADMIN")
                 .anyRequest().hasRole("ADMIN")
                 .and()
                 .exceptionHandling()
@@ -40,13 +42,13 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    UserContextProvider userContextProvider() {
-        return new FromSCHUserContextProvider();
+    public IoJsonWebTokenCreator ioJsonWebTokenCreator(SecurityProperties securityProperties) {
+        return new IoJsonWebTokenCreator(securityProperties.getSecret(), securityProperties.getExpirationTime(), objectMapperWithVavr());
     }
 
     @Bean
-    IoJsonWebTokenCreator tokenCreatorFacade(SecurityProperties securityProperties) {
-        return new IoJsonWebTokenCreator(securityProperties.getSecret(), securityProperties.getExpirationTime(), objectMapperWithVavr());
+    UserContextProvider userContextProvider() {
+        return new FromSCHUserContextProvider();
     }
 
     @Bean
